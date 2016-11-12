@@ -45,7 +45,16 @@ class LearningAgent(Agent):
         #?=e^ ?at ,for 0<a<1
         #self.epsilon =math.exp(-self.epsilonDecayVariable*self.trial*1)
         #?=cos(at),for 0<a<1
-        self.epsilon =math.cos(self.epsilonDecayVariable*self.trial)
+        #self.epsilon =math.cos(self.epsilonDecayVariable*self.trial)
+        trialNum=self.trial
+        ParmA=	-5E-11
+        ParmB=	0.104
+        ParmC=	210
+
+        self.epsilon =1*math.exp(-ParmA*trialNum)/( 1 + math.exp(ParmB*(trialNum-ParmC)))
+        #self.epsilon=self.epsilon -.05
+        #self.epsilon=math.exp(-0.0005*self.trial)*(4+math.cos(.7*self.trial))/5
+        #=EXP   (-lambda*A1)*(4+COS(freq*A1))/5
 
         #decay learning rate
         #self.alpha =.75 #math.exp(-self.alphaDecayVariable*self.trial)
@@ -191,11 +200,11 @@ class LearningAgent(Agent):
         return
         
 
-def run(alpha=.005,epsilon =.025, tolerance=.01):
+def run(alpha=.005,epsilon =.025, tolerance=.05):
     """ Driving function for running the simulation. 
         Press ESC to close the simulation, or [SPACE] to pause the simulation. """
-    print('remove the chdir statement when submitting to udacity')
-    os.chdir( "C:\\Udacity\\NanoDegree\\Smart Cab Project\\smartcab" )
+    #print('remove the chdir statement when submitting to udacity')
+    #os.chdir( "C:\\Udacity\\NanoDegree\\Smart Cab Project\\smartcab" )
     ##############
     # Create the environment
     # Flags:
@@ -240,25 +249,16 @@ if __name__ == '__main__':
     import datetime
     from time import gmtime, strftime
 
-    i=4
+    
     alpha =.95# .005- (float(i)/1000)
-    epsilon =.014  #+(float(i)/100)
-    tolerance =.09 #-(float(i)/100)
+    epsilon =.0019  #+(float(i)/100)
+    tolerance =.027 #-(float(i)/100)
 
+
+    #alpha  =.5
+    #epsilon =1
+    #tolerance =.05
     run(alpha=alpha,epsilon=epsilon, tolerance =tolerance)
-
-    #print('reduced grid size to 7 x 4')
-
-    for i in range(8):
-        sTime=strftime("%Y-%m-%d %H:%M:%S", gmtime())
-        sPath="C:\\Udacity\\NanoDegree\\Smart Cab Project\\smartcab\\logs\\"
-        sTime =sTime.replace(":","_")
-     
-     #   os.rename(sPath+"sim_improved-learning.csv", sPath+sTime+"_sim_improved-learning.csv")
-
-        alpha = .006- (float(i)/1000)
-        epsilon =.025+(float(i)/100)
-        tolerance =.1 -(float(i)/100)
 
     #    run(alpha=alpha,epsilon=epsilon, tolerance =tolerance)
         
